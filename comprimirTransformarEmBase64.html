@@ -1,39 +1,47 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://compressjs.herokuapp.com/compress.js"></script>
     <title>Hello, world!</title>
 </head>
-    <body>
-        <h1>Diminuindo um arquivo e transformando em base64</h1>
-        <div>
-            <input type="file" name="" id="upload" accept="image/JPG, image/PNG, imange/JPEG">
-        </div>
-        <img id="preview" src="">
 
-        <script>
+<body>
+    <h1>Diminuindo um arquivo e transformando em base64</h1>
+
+    <div>
+        <input type="file" name="" id="upload" accept="image/JPG, image/PNG, imange/JPEG">
+    </div>
+    <img id="preview" src="">
+
+    <script>
+        function CompressAndToBase64(upload) {
             const compress = new Compress()
-            const upload = document.getElementById('upload')
-            upload.addEventListener('change', (evt) => {
-                const files = [...evt.target.files]
-                compress.compress(files, {
-                    size: 4,
-                    quality: 0.75, // qualidade da imagem, sendo 1 o maximo
-                    maxWidth: 1920,
-                    maxHeight: 1920,
-                    resize: true
-                }).then((images) => {
-                    const img = images[0]
-                    console.log(img['data'])
-                    $("#preview").attr('src', 'data:image/jpeg;base64,' + img['data'])
-                })
+            const files = [...upload.prop('files')]
+            ImageBase64 = compress.compress(files, {
+                size: 4,
+                quality: 0.75, // qualidade da imagem, sendo 1 o maximo
+                maxWidth: 1920,
+                maxHeight: 1920,
+                resize: true
+            }).then((images) => {
+                return data = images[0]["data"]
             }, false)
-        </script>
-    </body>
+            return ImageBase64
+        }
+
+        $("#upload").change(async function () {
+            const data = await CompressAndToBase64($("#upload"))
+            console.log(data)
+        });
+    </script>
+</body>
 </html>
